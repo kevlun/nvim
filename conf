@@ -1,0 +1,380 @@
+" Enviroment Variables
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+
+" Plugins
+" ------------------------------------------------------
+call plug#begin('~/.nvim/plugged')
+
+" Plug: General
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'benekastah/neomake'
+Plug 'Valloric/YouCompleteMe'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'kien/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'bling/vim-airline'
+Plug 'jiangmiao/auto-pairs'
+" Plug 'mileszs/ack.vim'
+Plug 'rking/ag.vim'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+
+" Plug: Syntax
+" HTML
+Plug 'evidens/vim-twig'
+
+" Javascript
+Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+
+" Coffee-script
+Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+
+" Python
+Plug 'hdima/python-syntax', { 'for': 'python' }
+Plug 'public/vim-sort-python-imports', { 'for': 'python' }
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
+
+" Plug: Themes
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'jdkanani/vim-material-theme'
+Plug 'jscappini/material.vim'
+Plug 'morhetz/gruvbox'
+Plug 'altercation/vim-colors-solarized'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'w0ng/vim-hybrid'
+Plug 'zeis/vim-kolor'
+Plug 'notpratheek/vim-luna'
+Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+Plug 'reedes/vim-colors-pencil'
+Plug 'noahfrederick/vim-hemisu'
+Plug 'kevlun/vim-lucid'
+Plug 'jordwalke/flatlandia'
+Plug 'john2x/flatui.vim'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'geoffharcourt/one-dark.vim'
+
+call plug#end()
+
+" General
+" -------------------------------------------------------
+" set nocompatible
+
+syntax on
+set background=dark
+color hybrid_material
+
+" SignColumn color
+hi SignColumn guibg=#263238 guifg=#455A64
+
+" Syntastic / NeoMake sign colors
+hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f
+hi NeoMakeWarningSign guibg=#263238 guifg=#df5f00
+
+" Enable bold font in hybrid-* themes
+let g:enable_bold_font = 1
+let g:hybrid_use_iTerm_colors = 1
+
+let g:neomake_error_sign = { 'texthl': 'NeoMakeErrorSign' }
+let g:neomake_warning_sign = { 'texthl': 'NeoMakeWarningSign' }
+
+set relativenumber
+set number
+
+" Disable Backup
+set nobackup
+set noswapfile
+set nowritebackup
+
+" Fix backspace
+set backspace=indent,eol,start
+set showmatch
+set ruler
+set hlsearch
+set incsearch
+set smartcase
+set smarttab
+set noerrorbells
+set visualbell
+set tabstop=4
+set shiftwidth=4
+set shiftround
+set autoindent
+set smartindent
+set expandtab
+set cursorline
+set antialias
+set linespace=6
+set noequalalways
+set wildmenu
+
+" Autoload file on external changes
+set autoread
+
+" Hide abandoned buffers
+set hidden
+
+if has("linebreak")
+  set linebreak                 " Wrap lines at word boundaries
+  set showbreak=...
+  if exists("+breakindent")
+    set breakindent             " Indent soft-wrapped lines
+  endif
+endif
+set nowrap
+
+set fillchars=vert:\ ,diff:\    " Use space for vertical split, diff fill char
+
+" Set Invisble characters
+set listchars=tab:>\ ,extends:>,precedes:<,nbsp:+
+if &termencoding ==# "utf-8" || &encoding ==# "utf-8"
+  let &fillchars = "vert:\u2502,diff: "
+  let &listchars = "tab:\u25b8 ,extends:\u276f,precedes:\u276e,nbsp:\u2334"
+  if has("linebreak")
+    let &showbreak = "\u21aa"
+  endif
+endif
+
+" Global ignore pattern
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,__pycache__
+
+filetype plugin on
+filetype plugin indent on
+
+" KEYMAPS
+" -------------------------------------------------------------------------------------------------
+nnoremap <F1> :set hlsearch!<CR>
+map <F2> :set list!<cr>
+map <F3> :NERDTreeToggle %:p:h<CR>
+map <F4> <Esc>:Ag
+
+" Use Esc Esc to exit terminal mode
+tnoremap <Esc> <C-\><C-n>
+" tnoremap <A-h> <C-\><C-n><C-w>h
+" tnoremap <A-j> <C-\><C-n><C-w>j
+" tnoremap <A-k> <C-\><C-n><C-w>k
+" tnoremap <A-l> <C-\><C-n><C-w>l
+" nnoremap <A-h> <C-w>h
+" nnoremap <A-j> <C-w>j
+" nnoremap <A-k> <C-w>k
+" nnoremap <A-l> <C-w>l
+
+
+" CTRL-P
+map <silent> <C-a> :CtrlPBuffer<CR>
+map <silent> <C-s> :CtrlPMRUFiles<CR>
+
+" use jj to return to normal mode
+imap jj <Esc>
+
+" Use Shift Tab to unindent
+nmap <Tab> a<C-t><Esc>
+nmap <S-Tab> a<C-d><Esc>
+" nmap <Tab> >>
+" nmap <S-Tab> <<
+" imap <Tab> <C-t>
+" imap <S-Tab> <C-d>
+vmap <Tab> :><CR>gv
+vmap <S-Tab> :<<CR>gv
+
+" Pane resize
+map <silent> <S-Right> <C-w><
+map <silent> <S-Down> <C-W>-
+map <silent> <S-Up> <C-W>+
+map <silent> <S-Left> <C-w>>
+
+" Enable . command in visual mode
+vnoremap . :normal .<cr>
+
+" switch between current and last buffer
+" nmap <c-Tab> <c-^>
+
+map <silent> <C-h> <C-w>h
+map <silent> <C-j> <C-w>j
+map <silent> <C-k> <C-w>k
+map <silent> <C-l> <C-w>l
+
+" map <silent> <C-h> :call WinMove('h')<cr>
+" map <silent> <C-j> :call WinMove('j')<cr>
+" map <silent> <C-k> :call WinMove('k')<cr>
+" map <silent> <C-l> :call WinMove('l')<cr>
+
+" scroll the viewport faster
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+
+" LEADER
+" -------------------------------------------------------------------------------------------------
+" map leader to ,
+let mapleader = ","
+
+",w to save
+nmap <leader>w :w!<cr>
+
+",t to create a new tab
+nmap <leader>t :tabnew<cr>
+
+" ,. to select next/previous buffer
+"nmap <leader>- :bn<cr>
+"nmap <leader>. :bp<cr>
+
+" Search with Ack
+" nmap <leader>s <Esc>:Ack!
+
+" Strip whitespace
+nnoremap <leader>l :Strip<cr>
+
+" Fugitive
+nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
+nnoremap <silent> <leader>gw :<C-u>Gwrite<CR>
+nnoremap <silent> <leader>gc :<C-u>Gcommit<CR>
+nnoremap <silent> <leader>gb :<C-u>Gblame<CR>
+nnoremap <silent> <leader>gd :<C-u>Gdiff<CR>
+nnoremap <silent> <leader>gj :<C-u>Gpull<CR>
+nnoremap <silent> <leader>gk :<C-u>Gpush<CR>
+nnoremap <silent> <leader>gf :<C-u>Gfetch<CR>
+
+if isdirectory(expand("~/.nvim/plugged/tabular"))
+    nmap <Leader>a& :Tabularize /&<CR>
+    vmap <Leader>a& :Tabularize /&<CR>
+    nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+    vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+    nmap <Leader>a=> :Tabularize /=><CR>
+    vmap <Leader>a=> :Tabularize /=><CR>
+    nmap <Leader>a: :Tabularize /:<CR>
+    vmap <Leader>a: :Tabularize /:<CR>
+    nmap <Leader>a:: :Tabularize /:\zs<CR>
+    vmap <Leader>a:: :Tabularize /:\zs<CR>
+    nmap <Leader>a, :Tabularize /,<CR>
+    vmap <Leader>a, :Tabularize /,<CR>
+    nmap <Leader>a,, :Tabularize /,\zs<CR>
+    vmap <Leader>a,, :Tabularize /,\zs<CR>
+    nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+endif
+" FUNCTIONS
+" -------------------------------------------------------------------------------------------------
+" Strip whitespace
+function! StripWhitespace()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+command! Strip call StripWhitespace()<cr>
+
+" Window movement shortcuts
+" move to the window in the direction shown, or create a new window
+"
+" https://github.com/nicknisi/dotfiles/blob/master/vim/vimrc.symlink
+function! WinMove(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
+    endif
+endfunction
+
+" MISC SETTINGS
+" -------------------------------------------------------------------------------------------------
+
+" FZF
+" nnoremap <silent> <C-p> :call fzf#run({'sink': 'edit', 'down': '40%'})<CR>
+
+" function! s:buflist()
+"   redir => ls
+"   silent ls
+"   redir END
+"   return split(ls, '\n')
+" endfunction
+
+" function! s:bufopen(e)
+"   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+" endfunction
+
+" nnoremap <silent> <C-a> :call fzf#run({
+" \   'source':  reverse(<sid>buflist()),
+" \   'sink':    function('<sid>bufopen'),
+" \   'options': '+m',
+" \   'down':    len(<sid>buflist()) + 2
+" \ })<CR>
+
+" function! s:line_handler(l)
+"   let keys = split(a:l, ':\t')
+"   exec 'buf' keys[0]
+"   exec keys[1]
+"   normal! ^zz
+" endfunction
+
+" function! s:buffer_lines()
+"   let res = []
+"   for b in filter(range(1, bufnr('$')), 'buflisted(v:val)')
+"     call extend(res, map(getbufline(b,0,"$"), 'b . ":\t" . (v:key + 1) . ":\t" . v:val '))
+"   endfor
+"   return res
+" endfunction
+
+" command! FZFLines call fzf#run({
+" \   'source':  <sid>buffer_lines(),
+" \   'sink':    function('<sid>line_handler'),
+" \   'options': '--extended --nth=3..',
+" \   'down':    '40%'
+" \})
+
+" nnoremap <silent> <C-s> :FZFLines<CR>
+
+" The Silver Searcher (Ag)
+let g:ag_working_path_mode="r"
+
+" CTRL-P
+let g:airline#extensions#tabline#enabled = 1
+
+" Make Ctrl+P indexing faster by using ag silver searcher
+let g:ctrlp_lazy_update = 0
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_max_files = 0
+if executable("ag")
+   set grepprg=ag\ --nogroup\ --nocolor
+   let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+endif
+
+" Make Ctrl+P matching faster by using pymatcher
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+
+" AIRLINE
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'tomorrow'
+let g:airline_left_sep=''
+let g:airline_left_alt_sep=''
+let g:airline_right_sep=''
+let g:airline_right_alt_sep=''
+
+" Trim Whitespace on save
+"autocmd FileType php,ruby,python,coffee,js,java,css
+autocmd BufWritePre * :call StripWhitespace()
+" -------------------------------------------------------------------------------------------------
+
+" Remember last location in file
+" -------------------------------------------------------------------------------------------------
+if has("autocmd")
+    autocmd! BufWritePost * Neomake
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+endif
+" -------------------------------------------------------------------------------------------------
+
+" FileType Specific settings
+" -------------------------------------------------------------------------------------------------
+au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 tabstop=2 expandtab
+au BufNewFile,BufReadPost *.yaml setl shiftwidth=2 tabstop=2 expandtab
+au BufNewFile,BufReadPost *.yml setl shiftwidth=2 tabstop=2 expandtab
+" -------------------------------------------------------------------------------------------------

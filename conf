@@ -2,9 +2,7 @@
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-
-" Plugins
-" ------------------------------------------------------
+" PLUGINS ------------------------------------------------------------------ {{{
 call plug#begin('~/.config/nvim/plugged')
 
 " Plug: General
@@ -15,14 +13,15 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-" Plug 'bling/vim-airline'
-Plug 'itchyny/lightline.vim'
+Plug 'bling/vim-airline'
+" Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
 " Plug 'mileszs/ack.vim'
 Plug 'rking/ag.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'kassio/neoterm'
 
 " Plug: Syntax
 " HTML
@@ -62,9 +61,8 @@ Plug 'geoffharcourt/one-dark.vim'
 Plug 'zefei/cake16'
 
 call plug#end()
-
-" General
-" -------------------------------------------------------
+" }}}
+" GENERAL ------------------------------------------------------------------ {{{
 " set nocompatible
 
 syntax on
@@ -153,9 +151,8 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,__pycache__
 
 filetype plugin on
 filetype plugin indent on
-
-" KEYMAPS
-" -------------------------------------------------------------------------------------------------
+" }}}
+" KEYMAPS ------------------------------------------------------------------ {{{
 nnoremap <F1> :set hlsearch!<CR>
 map <F2> :set list!<cr>
 map <F3> :NERDTreeToggle %:p:h<CR>
@@ -215,9 +212,8 @@ map <silent> <C-l> <C-w>l
 " scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
-
-" LEADER
-" -------------------------------------------------------------------------------------------------
+" }}}
+" LEADER ------------------------------------------------------------------- {{{
 " map leader to ,
 let mapleader = ","
 
@@ -236,6 +232,7 @@ nmap <leader>t :tabnew<cr>
 
 " Strip whitespace
 nnoremap <leader>l :Strip<cr>
+nnoremap <leader>l :Strip<
 
 " Fugitive
 nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
@@ -265,9 +262,9 @@ if isdirectory(expand("~/.config/nvim/plugged/tabular"))
     nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 endif
-" FUNCTIONS
-" -------------------------------------------------------------------------------------------------
-" Strip whitespace
+" }}}
+" FUNCTIONS ---------------------------------------------------------------- {{{
+" Strip whitespace --------------------------------------------------------- {{{
 function! StripWhitespace()
   let l = line(".")
   let c = col(".")
@@ -275,8 +272,9 @@ function! StripWhitespace()
   call cursor(l, c)
 endfun
 command! Strip call StripWhitespace()<cr>
+" }}}
 
-" Window movement shortcuts
+" Window Movement ---------------------------------------------------------- {{{
 " move to the window in the direction shown, or create a new window
 "
 " https://github.com/nicknisi/dotfiles/blob/master/vim/vimrc.symlink
@@ -292,7 +290,9 @@ function! WinMove(key)
         exec "wincmd ".a:key
     endif
 endfunction
+" }}}
 
+" Clipboard ---------------------------------------------------------------- {{{
 " Copy from and to Mac Clipboard
 function! ClipboardYank()
   call system('pbcopy', @@)
@@ -304,146 +304,134 @@ endfunction
 vnoremap <silent> y y:call ClipboardYank()<cr>
 vnoremap <silent> d d:call ClipboardYank()<cr>
 nnoremap <silent> p :call ClipboardPaste()<cr>p
-" MISC SETTINGS
-" -------------------------------------------------------------------------------------------------
-" lightline ------------------------------------------------------ {{{
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-      \   'right': [ [ 'NeoMake', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'fugitive': 'LightLineFugitive',
-      \   'filename': 'LightLineFilename',
-      \   'fileformat': 'LightLineFileformat',
-      \   'filetype': 'LightLineFiletype',
-      \   'fileencoding': 'LightLineFileencoding',
-      \   'mode': 'LightLineMode',
-      \   'ctrlpmark': 'CtrlPMark',
-      \   'NeoMake': 'LightLineNeoMake',
-      \ },
-      \ 'component_type': {
-      \   'NeoMake': 'error',
-      \ },
-      \ 'subseparator': { 'left': '|', 'right': '|' }
-      \ }
-
-function! LightLineModified()
-  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! LightLineReadonly()
-  return &ft !~? 'help' && &readonly ? 'RO' : ''
-endfunction
-
-function! LightLineFilename()
-  let fname = expand('%:t')
-  return fname == 'ControlP' ? g:lightline.ctrlp_item :
-        \ fname == '__Tagbar__' ? g:lightline.fname :
-        \ fname =~ '__Gundo\|NERD_tree' ? '' :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ &ft == 'unite' ? unite#get_status_string() :
-        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]') .
-        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-endfunction
-
-function! LightLineFugitive()
-  try
-    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-      let mark = ''  " edit here for cool mark
-      let _ = fugitive#head()
-      return strlen(_) ? mark._ : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! LightLineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightLineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightLineFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! LightLineMode()
-  let fname = expand('%:t')
-  return fname == '__Tagbar__' ? 'Tagbar' :
-        \ fname == 'ControlP' ? 'CtrlP' :
-        \ fname == '__Gundo__' ? 'Gundo' :
-        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-        \ fname =~ 'NERD_tree' ? 'NERDTree' :
-        \ &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
-        \ &ft == 'vimshell' ? 'VimShell' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-function! CtrlPMark()
-  if expand('%:t') =~ 'ControlP'
-    call lightline#link('iR'[g:lightline.ctrlp_regex])
-    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-          \ , g:lightline.ctrlp_next], 0)
-  else
-    return ''
-  endif
-endfunction
-
-let g:ctrlp_status_func = {
-  \ 'main': 'CtrlPStatusFunc_1',
-  \ 'prog': 'CtrlPStatusFunc_2',
-  \ }
-
-function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_regex = a:regex
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
-endfunction
-
-function! CtrlPStatusFunc_2(str)
-  return lightline#statusline(0)
-endfunction
-
-function! LightLineNeoMake()
-    return neomake#statusline#LoclistStatus()
-    " return exists('neomake#statusline#LoclistStatus') ? neomake#statusline#LoclistStatus() : ''
-endfunction
-
-let g:tagbar_status_func = 'TagbarStatusFunc'
-
-function! TagbarStatusFunc(current, sort, fname, ...) abort
-    let g:lightline.fname = a:fname
-  return lightline#statusline(0)
-endfunction
-
-augroup AutoMake
-  autocmd!
-  autocmd! BufWritePost * Neomake
-  call lightline#update()
-augroup END
-
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
-let g:vimshell_force_overwrite_statusline = 0
 " }}}
 
-" NERDTree
+" }}}
+" PLUGIN SETTINGS ---------------------------------------------------------- {{{
+" Lightline ---------------------------------------------------------------- {{{
+" let g:lightline = {
+"   \ 'colorscheme': 'Tomorrow_Night',
+"   \ 'active': {
+"   \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+"   \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+"   \ },
+"   \ 'component': {
+"   \   'lineinfo': ' %3l:%-2v',
+"   \ },
+"   \ 'component_function': {
+"   \   'fugitive': 'LightLineFugitive',
+"   \   'filename': 'LightLineFilename',
+"   \   'fileformat': 'LightLineFileformat',
+"   \   'filetype': 'LightLineFiletype',
+"   \   'fileencoding': 'LightLineFileencoding',
+"   \   'mode': 'LightLineMode',
+"   \   'ctrlpmark': 'CtrlPMark',
+"   \ },
+"   \ 'component_expand': {
+"   \   'syntastic': 'SyntasticStatuslineFlag',
+"   \ },
+"   \ 'component_type': {
+"   \   'syntastic': 'error',
+"   \ },
+"   \ 'subseparator': { 'left': '', 'right': '' }
+"   \ }
+
+" function! LightLineModified()
+"   return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+" endfunction
+
+" function! LightLineReadonly()
+"   return &ft !~? 'help' && &readonly ? '' : ''
+" endfunction
+
+" function! LightLineFilename()
+"   let fname = expand('%:t')
+"   return fname == 'ControlP' ? g:lightline.ctrlp_item :
+"         \ fname == '__Tagbar__' ? g:lightline.fname :
+"         \ fname =~ '__Gundo\|NERD_tree' ? '' :
+"         \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+"         \ &ft == 'unite' ? unite#get_status_string() :
+"         \ &ft == 'vimshell' ? vimshell#get_status_string() :
+"         \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+"         \ ('' != fname ? fname : '[No Name]') .
+"         \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+" endfunction
+
+" function! LightLineFugitive()
+"   try
+"     if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+"       let mark = ''
+"       let _ = fugitive#head()
+"       return strlen(_) ? mark._ : ''
+"     endif
+"   catch
+"   endtry
+"   return ''
+" endfunction
+
+" function! LightLineFileformat()
+"   return winwidth(0) > 70 ? &fileformat : ''
+" endfunction
+
+" function! LightLineFiletype()
+"   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+" endfunction
+
+" function! LightLineFileencoding()
+"   return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+" endfunction
+
+" function! LightLineMode()
+"   let fname = expand('%:t')
+"   return fname == '__Tagbar__' ? 'Tagbar' :
+"         \ fname == 'ControlP' ? 'CtrlP' :
+"         \ fname == '__Gundo__' ? 'Gundo' :
+"         \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+"         \ fname =~ 'NERD_tree' ? 'NERDTree' :
+"         \ &ft == 'unite' ? 'Unite' :
+"         \ &ft == 'vimfiler' ? 'VimFiler' :
+"         \ &ft == 'vimshell' ? 'VimShell' :
+"         \ winwidth(0) > 60 ? lightline#mode() : ''
+" endfunction
+
+" function! CtrlPMark()
+"   if expand('%:t') =~ 'ControlP'
+"     call lightline#link('iR'[g:lightline.ctrlp_regex])
+"     return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+"           \ , g:lightline.ctrlp_next], 0)
+"   else
+"     return ''
+"   endif
+" endfunction
+
+" let g:ctrlp_status_func = {
+"   \ 'main': 'CtrlPStatusFunc_1',
+"   \ 'prog': 'CtrlPStatusFunc_2',
+"   \ }
+
+" function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+"   let g:lightline.ctrlp_regex = a:regex
+"   let g:lightline.ctrlp_prev = a:prev
+"   let g:lightline.ctrlp_item = a:item
+"   let g:lightline.ctrlp_next = a:next
+"   return lightline#statusline(0)
+" endfunction
+
+" function! CtrlPStatusFunc_2(str)
+"   return lightline#statusline(0)
+" endfunction
+
+" let g:unite_force_overwrite_statusline = 0
+" let g:vimfiler_force_overwrite_statusline = 0
+" let g:vimshell_force_overwrite_statusline = 0
+" " }}}
+" NERDTree ----------------------------------------------------------------- {{{
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-
-" The Silver Searcher (Ag)
+" }}}
+" THE SILVER SEARCHER (ag) ------------------------------------------------- {{{
 let g:ag_working_path_mode="r"
-
-" CTRL-P
+" }}}
+" CTRL-P ------------------------------------------------------------------- {{{
 " Make Ctrl+P indexing faster by using ag silver searcher
 let g:ctrlp_lazy_update = 0
 let g:ctrlp_clear_cache_on_exit = 0
@@ -455,11 +443,31 @@ endif
 
 " Make Ctrl+P matching faster by using pymatcher
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-
+" }}}
+" AIRLINE ------------------------------------------------------------------ {{{
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'solarized'
+let g:airline_left_sep=''
+let g:airline_left_alt_sep=''
+let g:airline_right_sep=''
+let g:airline_right_alt_sep=''
+" }}}
+" MISC SETTINGS ------------------------------------------------------------ {{{
 " Trim Whitespace on save
 "autocmd FileType php,ruby,python,coffee,js,java,css
 autocmd BufWritePre * :call StripWhitespace()
 " -------------------------------------------------------------------------------------------------
+
+aug run_neomake
+  au!
+  au BufEnter *
+        \ if empty(getloclist(0)) |
+        \   Neomake |
+        \ end
+  au BufWritePost,BufReadPost * Neomake
+aug END
 
 " Remember last location in file
 " -------------------------------------------------------------------------------------------------
@@ -475,3 +483,5 @@ au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 tabstop=2 expandtab
 au BufNewFile,BufReadPost *.yaml setl shiftwidth=2 tabstop=2 expandtab
 au BufNewFile,BufReadPost *.yml setl shiftwidth=2 tabstop=2 expandtab
 " -------------------------------------------------------------------------------------------------
+" }}}
+" vim: fdm=marker:sw=2:sts=2:et

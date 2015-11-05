@@ -67,8 +67,10 @@ call plug#end()
 
 syntax on
 
-set background=dark
-color material-theme
+set background=light
+color PaperColor
+" set background=dark
+" color material-theme
 
 " set background=light
 " color flattened_light
@@ -76,7 +78,7 @@ color material-theme
 " hi SignColumn guibg=#eee8d5 guifg=#93a1a1
 
 " SignColumn color
-hi SignColumn guibg=#263238 guifg=#93a1a1
+" hi SignColumn guibg=#263238 guifg=#93a1a1
 
 " Syntastic / NeoMake sign colors
 hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f
@@ -134,12 +136,13 @@ if has("linebreak")
 endif
 set nowrap
 
-set fillchars=vert:\ ,diff:\    " Use space for vertical split, diff fill char
+set fillchars+=vert:\ ,diff:\    " Use space for vertical split, diff fill char
 
 " Set Invisble characters
 set listchars=tab:>\ ,extends:>,precedes:<,nbsp:+
 if &termencoding ==# "utf-8" || &encoding ==# "utf-8"
-  let &fillchars = "vert:\u2502,diff: "
+  " let &fillchars = "vert:\u2502,diff: "
+  let &fillchars = "vert: ,diff: "
   let &listchars = "tab:\u25b8 ,extends:\u276f,precedes:\u276e,nbsp:\u2334"
   if has("linebreak")
     let &showbreak = "\u21aa"
@@ -448,11 +451,12 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'solarized'
+let g:airline_theme = 'papercolor'
 let g:airline_left_sep=''
 let g:airline_left_alt_sep=''
 let g:airline_right_sep=''
 let g:airline_right_alt_sep=''
+" }}}
 " }}}
 " MISC SETTINGS ------------------------------------------------------------ {{{
 " Trim Whitespace on save
@@ -472,8 +476,8 @@ aug END
 " Remember last location in file
 " -------------------------------------------------------------------------------------------------
 if has("autocmd")
-
     au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+    au ColorScheme * highlight VertSplit cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=NONE guibg=NONE
 endif
 " -------------------------------------------------------------------------------------------------
 

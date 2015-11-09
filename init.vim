@@ -7,6 +7,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Plug: General
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'benekastah/neomake'
 Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
 Plug 'editorconfig/editorconfig-vim'
@@ -21,6 +22,7 @@ Plug 'rking/ag.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'kassio/neoterm'
 
 " Plug: Syntax
@@ -35,7 +37,6 @@ Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 
 " Python
 Plug 'hdima/python-syntax', { 'for': 'python' }
-Plug 'public/vim-sort-python-imports', { 'for': 'python' }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 
@@ -60,6 +61,7 @@ Plug 'john2x/flatui.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'geoffharcourt/one-dark.vim'
 Plug 'zefei/cake16'
+Plug 'mhartington/oceanic-next'
 
 call plug#end()
 " }}}
@@ -82,8 +84,10 @@ color PaperColor
 " hi SignColumn guibg=#263238 guifg=#93a1a1
 
 " Syntastic / NeoMake sign colors
-hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f
-hi NeoMakeWarningSign guibg=#263238 guifg=#df5f00
+" hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f
+" hi NeoMakeWarningSign guibg=#263238 guifg=#df5f00
+hi NeoMakeErrorSign guifg=#dc322f
+hi NeoMakeWarningSign guifg=#df5f00
 
 " Enable bold font in hybrid-* themes
 let g:enable_bold_font = 1
@@ -457,6 +461,10 @@ let g:airline_left_sep=''
 let g:airline_left_alt_sep=''
 let g:airline_right_sep=''
 let g:airline_right_alt_sep=''
+" }}}
+" JEDI --------------------------------------------------------------------- {{{
+" Do not show docstring on completion
+autocmd FileType python setlocal completeopt-=preview
 " }}}
 " }}}
 " MISC SETTINGS ------------------------------------------------------------ {{{

@@ -70,8 +70,8 @@ call plug#end()
 
 syntax on
 
-set background=light
-color PaperColor
+set background=dark
+color flatlandia
 " set background=dark
 " color material-theme
 
@@ -121,7 +121,7 @@ set autoindent
 set smartindent
 set expandtab
 set cursorline
-set antialias
+" set antialias
 set linespace=6
 set noequalalways
 set wildmenu
@@ -456,7 +456,7 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'papercolor'
+let g:airline_theme = 'flatlandia'
 let g:airline_left_sep=''
 let g:airline_left_alt_sep=''
 let g:airline_right_sep=''

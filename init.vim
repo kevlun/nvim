@@ -9,7 +9,8 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'benekastah/neomake'
-Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
+" Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
+Plug 'Shougo/deoplete.nvim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
@@ -220,6 +221,9 @@ map <silent> <C-l> <C-w>l
 " scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
+
+" deoplete tab-complete
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
 " }}}
 " LEADER ------------------------------------------------------------------- {{{
 " map leader to ,
@@ -465,6 +469,16 @@ let g:airline_right_alt_sep=''
 " JEDI --------------------------------------------------------------------- {{{
 " Do not show docstring on completion
 autocmd FileType python setlocal completeopt-=preview
+" }}}
+
+" DEOPLETE ----------------------------------------------------------------- {{{
+let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+" let g:deoplete#disable_auto_complete = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
 " }}}
 " }}}
 " MISC SETTINGS ------------------------------------------------------------ {{{

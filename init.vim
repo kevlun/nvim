@@ -23,6 +23,7 @@ Plug 'rking/ag.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-dispatch'
 Plug 'airblade/vim-gitgutter'
 Plug 'kassio/neoterm'
 
@@ -73,16 +74,6 @@ syntax on
 
 set background=dark
 color flatlandia
-" set background=dark
-" color material-theme
-
-" set background=light
-" color flattened_light
-" let g:airline_theme = 'solarized'
-" hi SignColumn guibg=#eee8d5 guifg=#93a1a1
-
-" SignColumn color
-" hi SignColumn guibg=#263238 guifg=#93a1a1
 
 " Syntastic / NeoMake sign colors
 " hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f

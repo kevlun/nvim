@@ -244,17 +244,32 @@ nmap <leader>t :tabnew<cr>
 
 " Strip whitespace
 nnoremap <leader>l :Strip<cr>
-nnoremap <leader>l :Strip<
 
 " Fugitive
-nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
-nnoremap <silent> <leader>gw :<C-u>Gwrite<CR>
-nnoremap <silent> <leader>gc :<C-u>Gcommit<CR>
-nnoremap <silent> <leader>gb :<C-u>Gblame<CR>
-nnoremap <silent> <leader>gd :<C-u>Gdiff<CR>
-nnoremap <silent> <leader>gj :<C-u>Gpull<CR>
-nnoremap <silent> <leader>gk :<C-u>Gpush<CR>
-nnoremap <silent> <leader>gf :<C-u>Gfetch<CR>
+" nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
+" nnoremap <silent> <leader>gw :<C-u>Gwrite<CR>
+" nnoremap <silent> <leader>gc :<C-u>Gcommit<CR>
+" nnoremap <silent> <leader>gb :<C-u>Gblame<CR>
+" nnoremap <silent> <leader>gd :<C-u>Gdiff<CR>
+" nnoremap <silent> <leader>gj :<C-u>Gpull<CR>
+" nnoremap <silent> <leader>gk :<C-u>Gpush<CR>
+" nnoremap <silent> <leader>gf :<C-u>Gfetch<CR>
+
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gc :Gcommit -v -q<CR>
+nnoremap <leader>ga :Gcommit --amend<CR>
+nnoremap <leader>gt :Gcommit -v -q %<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>ge :Gedit<CR>
+nnoremap <leader>gr :Gread<CR>
+nnoremap <leader>gw :Gwrite<CR><CR>
+nnoremap <leader>gl :silent! Glog<CR>
+nnoremap <leader>gp :Ggrep<Space>
+nnoremap <leader>gm :Gmove<Space>
+nnoremap <leader>gb :Git branch<Space>
+nnoremap <leader>go :Git checkout<Space>
+nnoremap <leader>gps :Dispatch! git push<CR>
+nnoremap <leader>gpl :Dispatch! git pull<CR>
 
 if isdirectory(expand("~/.config/nvim/plugged/tabular"))
     nmap <Leader>a& :Tabularize /&<CR>

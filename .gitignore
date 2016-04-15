@@ -1,3 +1,2 @@
-plugged/*
-autoload/*
-!autoload/plug.vim
+plugged/
+autoload/

@@ -2,6 +2,12 @@
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
 " PLUGINS ------------------------------------------------------------------ {{{
 call plug#begin('~/.config/nvim/plugged')
 
@@ -9,16 +15,13 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'benekastah/neomake'
-" Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
-Plug 'Shougo/deoplete.nvim'
+Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
+" Plug 'Shougo/deoplete.nvim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'bling/vim-airline'
-" Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'mileszs/ack.vim'
 Plug 'rking/ag.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
@@ -113,7 +116,6 @@ set autoindent
 set smartindent
 set expandtab
 set cursorline
-" set antialias
 set linespace=6
 set noequalalways
 set wildmenu
@@ -237,15 +239,6 @@ nmap <leader>t :tabnew<cr>
 nnoremap <leader>l :Strip<cr>
 
 " Fugitive
-" nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
-" nnoremap <silent> <leader>gw :<C-u>Gwrite<CR>
-" nnoremap <silent> <leader>gc :<C-u>Gcommit<CR>
-" nnoremap <silent> <leader>gb :<C-u>Gblame<CR>
-" nnoremap <silent> <leader>gd :<C-u>Gdiff<CR>
-" nnoremap <silent> <leader>gj :<C-u>Gpull<CR>
-" nnoremap <silent> <leader>gk :<C-u>Gpush<CR>
-" nnoremap <silent> <leader>gf :<C-u>Gfetch<CR>
-
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gc :Gcommit -v -q<CR>
 nnoremap <leader>ga :Gcommit --amend<CR>
@@ -259,8 +252,8 @@ nnoremap <leader>gp :Ggrep<Space>
 nnoremap <leader>gm :Gmove<Space>
 nnoremap <leader>gb :Git branch<Space>
 nnoremap <leader>go :Git checkout<Space>
-nnoremap <leader>gps :Dispatch! git push<CR>
-nnoremap <leader>gpl :Dispatch! git pull<CR>
+nnoremap <leader>gps :Gpush<CR>
+nnoremap <leader>gpl :Gpull<CR>
 
 if isdirectory(expand("~/.config/nvim/plugged/tabular"))
     nmap <Leader>a& :Tabularize /&<CR>

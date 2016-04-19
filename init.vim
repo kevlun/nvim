@@ -1,4 +1,4 @@
-" Enviroment Variables
+
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
@@ -68,6 +68,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'geoffharcourt/one-dark.vim'
 Plug 'zefei/cake16'
 Plug 'mhartington/oceanic-next'
+Plug 'tomasr/molokai'
 
 call plug#end()
 " }}}
@@ -160,7 +161,7 @@ nnoremap <F1> :set hlsearch!<CR>
 map <F2> :set list!<cr>
 map <F3> :NERDTreeToggle %:p:h<CR>
 map <F4> <Esc>:Ag
-
+map <F8> :SwitchTheme<cr>
 " Use Esc Esc to exit terminal mode
 tnoremap <Esc> <C-\><C-n>
 " tnoremap <A-h> <C-\><C-n><C-w>h
@@ -310,7 +311,7 @@ function! WinMove(key)
 endfunction
 " }}}
 
-" Clipboard ---------------------------------------------------------------- {{{
+" Clipboard - -------------------------------------------------------------- {{{
 " Copy from and to Mac Clipboard
 function! ClipboardYank()
   call system('pbcopy', @@)
@@ -322,6 +323,22 @@ endfunction
 vnoremap <silent> y y:call ClipboardYank()<cr>
 vnoremap <silent> d d:call ClipboardYank()<cr>
 nnoremap <silent> p :call ClipboardPaste()<cr>p
+" }}}
+
+" Theme switcher - --------------------------------------------------------- {{{
+function! SwitchTheme()
+    if &bg=="light"
+        set background=dark
+        color flatlandia
+        let g:airline_theme = 'flatlandia'
+    else
+        set background=light
+        color solarized
+        let g:airline_theme = 'solarized'
+    endif
+    syntax on
+endfunction
+command! SwitchTheme call SwitchTheme()
 " }}}
 
 " }}}
@@ -349,7 +366,7 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'flatlandia'
+" let g:airline_theme = 'flatlandia'
 let g:airline_left_sep=''
 let g:airline_left_alt_sep=''
 let g:airline_right_sep=''

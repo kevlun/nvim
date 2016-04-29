@@ -223,6 +223,10 @@ tnoremap <Esc><Esc> <C-\><C-n>
 " Raise priv
 cmap w!! w !sudo tee >/dev/null %
 
+" Toogle fold open/close in normal mode. Create fold in Visual mode
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
+
 " deoplete tab-complete
 " inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
 " }}}
@@ -292,7 +296,6 @@ function! StripWhitespace()
 endfun
 command! Strip call StripWhitespace()<cr>
 " }}}
-
 " Window Movement ---------------------------------------------------------- {{{
 " move to the window in the direction shown, or create a new window
 "
@@ -310,7 +313,6 @@ function! WinMove(key)
     endif
 endfunction
 " }}}
-
 " Clipboard - -------------------------------------------------------------- {{{
 " Copy from and to Mac Clipboard
 function! ClipboardYank()
@@ -324,7 +326,6 @@ vnoremap <silent> y y:call ClipboardYank()<cr>
 vnoremap <silent> d d:call ClipboardYank()<cr>
 nnoremap <silent> p :call ClipboardPaste()<cr>p
 " }}}
-
 " Theme switcher - --------------------------------------------------------- {{{
 function! SwitchTheme()
     if &bg=="light"
@@ -340,7 +341,37 @@ function! SwitchTheme()
 endfunction
 command! SwitchTheme call SwitchTheme()
 " }}}
+" Space2Tab/Tabs2Space ----------------------------------------------------- {{{
+" Return indent (all whitespace at start of a line), converted from
+" tabs to spaces if what = 1, or from spaces to tabs otherwise.
+" When converting to tabs, result has no redundant spaces.
+function! Indenting(indent, what, cols)
+  let spccol = repeat(' ', a:cols)
+  let result = substitute(a:indent, spccol, '\t', 'g')
+  let result = substitute(result, ' \+\ze\t', '', 'g')
+  if a:what == 1
+    let result = substitute(result, '\t', spccol, 'g')
+  endif
+  return result
+endfunction
 
+" Convert whitespace used for indenting (before first non-whitespace).
+" what = 0 (convert spaces to tabs), or 1 (convert tabs to spaces).
+" cols = string with number of columns per tab, or empty to use 'tabstop'.
+" The cursor position is restored, but the cursor will be in a different
+" column when the number of characters in the indent of the line is changed.
+function! IndentConvert(line1, line2, what, cols)
+  let savepos = getpos('.')
+  let cols = empty(a:cols) ? &tabstop : a:cols
+  execute a:line1 . ',' . a:line2 . 's/^\s\+/\=Indenting(submatch(0), a:what, cols)/e'
+  call histdel('search', -1)
+  call setpos('.', savepos)
+endfunction
+
+command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-args>)
+command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
+command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
+" }}}
 " }}}
 " PLUGIN SETTINGS ---------------------------------------------------------- {{{
 " NERDTree ----------------------------------------------------------------- {{{
@@ -384,6 +415,7 @@ autocmd FileType python setlocal completeopt-=preview
 " " let g:deoplete#disable_auto_complete = 1
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
+" }}}
 " }}}
 " MISC SETTINGS ------------------------------------------------------------ {{{
 " Trim Whitespace on save

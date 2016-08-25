@@ -77,8 +77,8 @@ call plug#end()
 
 syntax on
 
-set background=dark
-color flatlandia
+set background=light
+color PaperColor
 
 " Syntastic / NeoMake sign colors
 " hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f
@@ -397,7 +397,7 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-" let g:airline_theme = 'flatlandia'
+let g:airline_theme = 'papercolor'
 let g:airline_left_sep=''
 let g:airline_left_alt_sep=''
 let g:airline_right_sep=''

@@ -16,7 +16,8 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'benekastah/neomake'
 Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
-" Plug 'Shougo/deoplete.nvim'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-jedi'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
@@ -229,6 +230,7 @@ vnoremap <Space> zf
 
 " deoplete tab-complete
 " inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " }}}
 " LEADER ------------------------------------------------------------------- {{{
 " map leader to ,
@@ -412,7 +414,9 @@ autocmd FileType python setlocal completeopt-=preview
 " if !exists('g:deoplete#omni#input_patterns')
 "   let g:deoplete#omni#input_patterns = {}
 " endif
-" " let g:deoplete#disable_auto_complete = 1
+" let g:deoplete#disable_auto_complete = 1
+" let g:deoplete#auto_completion_start_length = 1
+" let g:deoplete#enable_debug=1
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " }}}

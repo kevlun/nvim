@@ -1,5 +1,13 @@
+if (empty($TMUX))
+  if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" Change cursor in insert mode
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
@@ -70,6 +78,10 @@ Plug 'geoffharcourt/one-dark.vim'
 Plug 'zefei/cake16'
 Plug 'mhartington/oceanic-next'
 Plug 'tomasr/molokai'
+Plug 'jacoborus/tender'
+Plug 'roosta/srcery'
+Plug 'rakr/vim-one'
+Plug 'YorickPeterse/happy_hacking.vim'
 
 call plug#end()
 " }}}
@@ -78,8 +90,8 @@ call plug#end()
 
 syntax on
 
-set background=light
-color PaperColor
+set background=dark
+color one
 
 " Syntastic / NeoMake sign colors
 " hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f
@@ -396,6 +408,7 @@ endif
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 " }}}
 " AIRLINE ------------------------------------------------------------------ {{{
+" let g:tender_airline = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1

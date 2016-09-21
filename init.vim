@@ -330,16 +330,32 @@ endfunction
 " }}}
 " Clipboard - -------------------------------------------------------------- {{{
 " Copy from and to Mac Clipboard
+let os = substitute(system('uname'), "\n", "", "")
 function! ClipboardYank()
-  call system('pbcopy', @@)
+  if os == "Linux"
+    call system('xclip -i -selection clipboard', @@)
+  elseif os == "Darwin"
+    system('pbcopy', @@)
+  endif
 endfunction
 function! ClipboardPaste()
-  let @@ = system('pbpaste')
+  if os == "Linux"
+    let @@ = system('xclip -o -selection clipboard')
+  elseif os == "Darwin"
+    let @@ = system('pbpaste')
+  endif
 endfunction
 
-vnoremap <silent> y y:call ClipboardYank()<cr>
-vnoremap <silent> d d:call ClipboardYank()<cr>
-nnoremap <silent> p :call ClipboardPaste()<cr>p
+" function! ClipboardYank()
+"   call system('pbcopy', @@)
+" endfunction
+" function! ClipboardPaste()
+"   let @@ = system('pbpaste')
+" endfunction
+
+vnoremap <silent> <leader>y y:call ClipboardYank()<cr>
+vnoremap <silent> <leader>d d:call ClipboardYank()<cr>
+nnoremap <silent> <leader>p :call ClipboardPaste()<cr>p
 " }}}
 " Theme switcher - --------------------------------------------------------- {{{
 function! SwitchTheme()

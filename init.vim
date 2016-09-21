@@ -279,8 +279,8 @@ nnoremap <leader>gp :Ggrep<Space>
 nnoremap <leader>gm :Gmove<Space>
 nnoremap <leader>gb :Git branch<Space>
 nnoremap <leader>go :Git checkout<Space>
-nnoremap <leader>gps :Gpush<CR>
-nnoremap <leader>gpl :Gpull<CR>
+nnoremap <leader>gk :Gpush<CR>
+nnoremap <leader>gj :Gpull<CR>
 
 if isdirectory(expand("~/.config/nvim/plugged/tabular"))
     nmap <Leader>a& :Tabularize /&<CR>

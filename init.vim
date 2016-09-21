@@ -170,11 +170,12 @@ filetype plugin on
 filetype plugin indent on
 " }}}
 " KEYMAPS ------------------------------------------------------------------ {{{
-nnoremap <F1> :set hlsearch!<CR>
-map <F2> :set list!<cr>
-map <F3> :NERDTreeToggle %:p:h<CR>
-map <F4> <Esc>:Ag
-map <F8> :SwitchTheme<cr>
+map <F1> :NERDTreeToggle %:p:h<CR>
+map <F2> :noh<cr>
+map <F3> <Esc>:Ag
+map <F4> :set list!
+map <F5> :terminal<cr>
+
 " Use Esc Esc to exit terminal mode
 tnoremap <Esc> <C-\><C-n>
 " tnoremap <A-h> <C-\><C-n><C-w>h
@@ -233,12 +234,12 @@ nnoremap <C-y> 3<C-y>
 " Esc-Esc to exit terminal mode
 tnoremap <Esc><Esc> <C-\><C-n>
 
-" Raise priv
+" Raise privileges
 cmap w!! w !sudo tee >/dev/null %
 
 " Toogle fold open/close in normal mode. Create fold in Visual mode
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-vnoremap <Space> zf
+vnoremap <F8> zf
 
 " deoplete tab-complete
 " inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
@@ -246,7 +247,7 @@ inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " }}}
 " LEADER ------------------------------------------------------------------- {{{
 " map leader to ,
-let mapleader = ","
+let mapleader = " "
 
 ",w to save
 nmap <leader>w :w!<cr>

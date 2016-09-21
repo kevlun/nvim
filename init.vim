@@ -173,7 +173,7 @@ filetype plugin indent on
 map <F1> :NERDTreeToggle %:p:h<CR>
 map <F2> :noh<cr>
 map <F3> <Esc>:Ag
-map <F4> :set list!
+map <F4> :set list!<cr>
 map <F5> :terminal<cr>
 
 " Use Esc Esc to exit terminal mode
@@ -238,7 +238,7 @@ tnoremap <Esc><Esc> <C-\><C-n>
 cmap w!! w !sudo tee >/dev/null %
 
 " Toogle fold open/close in normal mode. Create fold in Visual mode
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+nnoremap <silent> <F8> @=(foldlevel('.')?'za':"\<F8>")<CR>
 vnoremap <F8> zf
 
 " deoplete tab-complete

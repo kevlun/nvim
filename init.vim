@@ -82,6 +82,7 @@ Plug 'jacoborus/tender'
 Plug 'roosta/srcery'
 Plug 'rakr/vim-one'
 Plug 'YorickPeterse/happy_hacking.vim'
+Plug 'dracula/vim'
 
 call plug#end()
 " }}}

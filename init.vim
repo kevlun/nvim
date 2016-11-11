@@ -90,14 +90,18 @@ call plug#end()
 
 syntax on
 
-set background=dark
-color one
+set background=light
+color PaperColor
 
 " Syntastic / NeoMake sign colors
 " hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f
 " hi NeoMakeWarningSign guibg=#263238 guifg=#df5f00
 hi NeoMakeErrorSign guifg=#dc322f
 hi NeoMakeWarningSign guifg=#df5f00
+
+" hi Normal guibg=None
+" hi LineNr guibg=None
+" hi CursorLineNr guibg=None
 
 " Enable bold font in hybrid-* themes
 let g:enable_bold_font = 1
@@ -170,23 +174,11 @@ filetype plugin on
 filetype plugin indent on
 " }}}
 " KEYMAPS ------------------------------------------------------------------ {{{
-map <F1> :NERDTreeToggle %:p:h<CR>
-map <F2> :noh<cr>
-map <F3> <Esc>:Ag
-map <F4> :set list!<cr>
-map <F5> :terminal<cr>
-
-" Use Esc Esc to exit terminal mode
-tnoremap <Esc> <C-\><C-n>
-" tnoremap <A-h> <C-\><C-n><C-w>h
-" tnoremap <A-j> <C-\><C-n><C-w>j
-" tnoremap <A-k> <C-\><C-n><C-w>k
-" tnoremap <A-l> <C-\><C-n><C-w>l
-" nnoremap <A-h> <C-w>h
-" nnoremap <A-j> <C-w>j
-" nnoremap <A-k> <C-w>k
-" nnoremap <A-l> <C-w>l
-
+noremap <F1> :NERDTreeToggle %:p:h<CR>
+noremap <F2> :noh<cr>
+noremap <F3> <Esc>:Ag
+noremap <F4> :set list!<cr>
+noremap <F5> :terminal<cr>
 
 " CTRL-P
 map <silent> <C-a> :CtrlPBuffer<CR>
@@ -238,8 +230,8 @@ tnoremap <Esc><Esc> <C-\><C-n>
 cmap w!! w !sudo tee >/dev/null %
 
 " Toogle fold open/close in normal mode. Create fold in Visual mode
-nnoremap <silent> <F8> @=(foldlevel('.')?'za':"\<F8>")<CR>
-vnoremap <F8> zf
+nnoremap <silent> <space> @=(foldlevel('.')?'za':"\<space>")<CR>
+vnoremap <space> zf
 
 " deoplete tab-complete
 " inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
@@ -247,7 +239,7 @@ inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " }}}
 " LEADER ------------------------------------------------------------------- {{{
 " map leader to ,
-let mapleader = " "
+let mapleader = ","
 
 ",w to save
 nmap <leader>w :w!<cr>
@@ -429,11 +421,11 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'one'
-let g:airline_left_sep=''
-let g:airline_left_alt_sep=''
-let g:airline_right_sep=''
-let g:airline_right_alt_sep=''
+let g:airline_theme = 'papercolor'
+" let g:airline_left_sep=''
+" let g:airline_left_alt_sep=''
+" let g:airline_right_sep=''
+" let g:airline_right_alt_sep=''
 " }}}
 " JEDI --------------------------------------------------------------------- {{{
 " Do not show docstring on completion

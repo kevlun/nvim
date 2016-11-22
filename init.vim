@@ -22,7 +22,8 @@ call plug#begin('~/.config/nvim/plugged')
 " Plug: General
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'benekastah/neomake'
+" Plug 'benekastah/neomake'
+Plug 'w0rp/ale'
 Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'zchee/deoplete-jedi'
@@ -91,25 +92,8 @@ call plug#end()
 
 syntax on
 
-set background=light
-color PaperColor
-
-" Syntastic / NeoMake sign colors
-" hi NeoMakeErrorSign guibg=#263238 guifg=#dc322f
-" hi NeoMakeWarningSign guibg=#263238 guifg=#df5f00
-hi NeoMakeErrorSign guifg=#dc322f
-hi NeoMakeWarningSign guifg=#df5f00
-
-" hi Normal guibg=None
-" hi LineNr guibg=None
-" hi CursorLineNr guibg=None
-
-" Enable bold font in hybrid-* themes
-let g:enable_bold_font = 1
-let g:hybrid_use_iTerm_colors = 1
-
-let g:neomake_error_sign = { 'texthl': 'NeoMakeErrorSign' }
-let g:neomake_warning_sign = { 'texthl': 'NeoMakeWarningSign' }
+set background=dark
+color flatlandia
 
 set relativenumber
 set number
@@ -408,6 +392,7 @@ let g:ag_working_path_mode="r"
 " Make Ctrl+P indexing faster by using ag silver searcher
 let g:ctrlp_lazy_update = 0
 let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 let g:ctrlp_max_files = 0
 if executable("ag")
    set grepprg=ag\ --nogroup\ --nocolor
@@ -422,7 +407,7 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'papercolor'
+let g:airline_theme = 'flatlandia'
 " let g:airline_left_sep=''
 " let g:airline_left_alt_sep=''
 " let g:airline_right_sep=''
@@ -443,6 +428,23 @@ autocmd FileType python setlocal completeopt-=preview
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " }}}
+" ALE ---------------------------------------------------------------------- {{{
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
+
+let g:ale_sign_error = '⨉ '
+let g:ale_sign_warning = '⚠'
+let g:ale_sign_column_always = 1
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+hi ALEError guifg=#dc322f guibg=none
+hi ALEWarning guifg=#df5f00 guibg=none
+
+" }}}
 " }}}
 " MISC SETTINGS ------------------------------------------------------------ {{{
 " Trim Whitespace on save
@@ -450,20 +452,20 @@ autocmd FileType python setlocal completeopt-=preview
 autocmd BufWritePre * :call StripWhitespace()
 " -------------------------------------------------------------------------------------------------
 
-aug run_neomake
-  au!
-  au BufEnter *
-        \ if empty(getloclist(0)) |
-        \   Neomake |
-        \ end
-  au BufWritePost,BufReadPost * Neomake
-aug END
+" aug run_neomake
+"   au!
+"   au BufEnter *
+"         \ if empty(getloclist(0)) |
+"         \   Neomake |
+"         \ end
+"   au BufWritePost,BufReadPost * Neomake
+" aug END
 
 " Remember last location in file
 " -------------------------------------------------------------------------------------------------
 if has("autocmd")
     au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
-    au ColorScheme * highlight VertSplit cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=NONE guibg=NONE
+    " au ColorScheme * highlight VertSplit cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=NONE guibg=NONE
 endif
 " -------------------------------------------------------------------------------------------------
 

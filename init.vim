@@ -93,7 +93,7 @@ call plug#end()
 syntax on
 
 set background=dark
-color flatlandia
+color one
 
 set relativenumber
 set number
@@ -339,7 +339,7 @@ function! SwitchTheme()
     if &bg=="light"
         set background=dark
         color flatlandia
-        let g:airline_theme = 'flatlandia'
+        let g:airline_theme = 'one'
     else
         set background=light
         color solarized
@@ -407,7 +407,7 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'flatlandia'
+let g:airline_theme = 'one'
 " let g:airline_left_sep=''
 " let g:airline_left_alt_sep=''
 " let g:airline_right_sep=''

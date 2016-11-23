@@ -1,3 +1,4 @@
+" INSTALL ------------------------------------------------------------------ {{{
 if (empty($TMUX))
   if (has("nvim"))
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -15,14 +16,13 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
-
+" }}}
 " PLUGINS ------------------------------------------------------------------ {{{
 call plug#begin('~/.config/nvim/plugged')
 
 " Plug: General
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'benekastah/neomake'
 Plug 'w0rp/ale'
 Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -93,7 +93,7 @@ call plug#end()
 syntax on
 
 set background=dark
-color one
+color tender
 
 set relativenumber
 set number
@@ -407,7 +407,7 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'one'
+let g:airline_theme = 'tender'
 " let g:airline_left_sep=''
 " let g:airline_left_alt_sep=''
 " let g:airline_right_sep=''

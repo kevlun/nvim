@@ -69,6 +69,7 @@ Plug 'jacoborus/tender'
 Plug 'dracula/vim'
 Plug 'MaxSt/FlatColor'
 Plug 'iCyMind/NeoSolarized'
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 " }}}

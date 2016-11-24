@@ -24,9 +24,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'w0rp/ale'
-Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'zchee/deoplete-jedi'
+" Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
@@ -219,8 +219,9 @@ nnoremap <silent> <space> @=(foldlevel('.')?'za':"\<space>")<CR>
 vnoremap <space> zf
 
 " deoplete tab-complete
-" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : deoplete#mappings#manual_complete()
+" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " }}}
 " LEADER ------------------------------------------------------------------- {{{
 " map leader to ,
@@ -334,21 +335,6 @@ vnoremap <silent> <leader>y y:call ClipboardYank()<cr>
 vnoremap <silent> <leader>d d:call ClipboardYank()<cr>
 nnoremap <silent> <leader>p :call ClipboardPaste()<cr>p
 " }}}
-" Theme switcher - --------------------------------------------------------- {{{
-function! SwitchTheme()
-    if &bg=="light"
-        set background=dark
-        color flatlandia
-        let g:airline_theme = 'one'
-    else
-        set background=light
-        color solarized
-        let g:airline_theme = 'solarized'
-    endif
-    syntax on
-endfunction
-command! SwitchTheme call SwitchTheme()
-" }}}
 " Space2Tab/Tabs2Space ----------------------------------------------------- {{{
 " Return indent (all whitespace at start of a line), converted from
 " tabs to spaces if what = 1, or from spaces to tabs otherwise.
@@ -418,13 +404,11 @@ let g:airline_theme = 'tender'
 autocmd FileType python setlocal completeopt-=preview
 " }}}
 " DEOPLETE ----------------------------------------------------------------- {{{
-" let g:deoplete#enable_at_startup = 1
-" if !exists('g:deoplete#omni#input_patterns')
-"   let g:deoplete#omni#input_patterns = {}
-" endif
-" let g:deoplete#disable_auto_complete = 1
-" let g:deoplete#auto_completion_start_length = 1
-" let g:deoplete#enable_debug=1
+let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " }}}
@@ -451,15 +435,6 @@ hi ALEWarning guifg=#df5f00 guibg=none
 "autocmd FileType php,ruby,python,coffee,js,java,css
 autocmd BufWritePre * :call StripWhitespace()
 " -------------------------------------------------------------------------------------------------
-
-" aug run_neomake
-"   au!
-"   au BufEnter *
-"         \ if empty(getloclist(0)) |
-"         \   Neomake |
-"         \ end
-"   au BufWritePost,BufReadPost * Neomake
-" aug END
 
 " Remember last location in file
 " -------------------------------------------------------------------------------------------------

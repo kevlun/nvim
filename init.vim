@@ -57,33 +57,18 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 
 " Plug: Themes
-Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'jdkanani/vim-material-theme'
 Plug 'jscappini/material.vim'
 Plug 'morhetz/gruvbox'
-" Plug 'altercation/vim-colors-solarized'
-Plug 'frankier/neovim-colors-solarized-truecolor-only'
-Plug 'romainl/flattened'
-Plug 'jonathanfilip/vim-lucius'
-Plug 'w0ng/vim-hybrid'
-Plug 'zeis/vim-kolor'
-Plug 'notpratheek/vim-luna'
 Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
-Plug 'reedes/vim-colors-pencil'
-Plug 'noahfrederick/vim-hemisu'
-Plug 'kevlun/vim-lucid'
 Plug 'jordwalke/flatlandia'
-Plug 'john2x/flatui.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'geoffharcourt/one-dark.vim'
-Plug 'zefei/cake16'
 Plug 'mhartington/oceanic-next'
-Plug 'tomasr/molokai'
 Plug 'jacoborus/tender'
-Plug 'roosta/srcery'
-Plug 'rakr/vim-one'
-Plug 'YorickPeterse/happy_hacking.vim'
 Plug 'dracula/vim'
+Plug 'MaxSt/FlatColor'
+Plug 'iCyMind/NeoSolarized'
 
 call plug#end()
 " }}}

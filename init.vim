@@ -142,7 +142,7 @@ filetype plugin on
 filetype plugin indent on
 " }}}
 " KEYMAPS ------------------------------------------------------------------ {{{
-noremap <F1> :NERDTreeToggle %:p:h<CR>
+noremap <F1> :NERDTreeToggle<CR>
 noremap <F2> :set list!<cr>
 noremap <F3> <ESC>:FuzzyGrep<space>
 noremap <F4> <ESC>:FuzzyGrep <C-R><C-W> *<CR>
@@ -200,11 +200,14 @@ cmap w!! w !sudo tee >/dev/null %
 nnoremap <silent> <space> @=(foldlevel('.')?'za':"\<space>")<CR>
 vnoremap <space> zf
 
-" deoplete tab-complete
+" Deoplete tab-complete
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : deoplete#mappings#manual_complete()
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" : "<S-Tab>"
+
+" Deoplete close popup and save indent with Enter
+inoremap <silent><expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
 " }}}
 " LEADER ------------------------------------------------------------------- {{{
 " map leader to ,

@@ -24,16 +24,13 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'w0rp/ale'
-" Plug 'Valloric/YouCompleteMe', { 'do': 'python install.py' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'kien/ctrlp.vim'
-Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'cloudhead/neovim-fuzzy'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
-Plug 'rking/ag.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -117,11 +114,11 @@ set autoread
 set hidden
 
 if has("linebreak")
-  set linebreak                 " Wrap lines at word boundaries
-  set showbreak=...
-  if exists("+breakindent")
-    set breakindent             " Indent soft-wrapped lines
-  endif
+set linebreak                 " Wrap lines at word boundaries
+set showbreak=...
+if exists("+breakindent")
+  set breakindent             " Indent soft-wrapped lines
+endif
 endif
 set nowrap
 
@@ -130,12 +127,12 @@ set fillchars+=vert:\ ,diff:\    " Use space for vertical split, diff fill char
 " Set Invisble characters
 set listchars=tab:>\ ,extends:>,precedes:<,nbsp:+
 if &termencoding ==# "utf-8" || &encoding ==# "utf-8"
-  " let &fillchars = "vert:\u2502,diff: "
-  let &fillchars = "vert: ,diff: "
-  let &listchars = "tab:\u25b8 ,extends:\u276f,precedes:\u276e,nbsp:\u2334"
-  if has("linebreak")
-    let &showbreak = "\u21aa"
-  endif
+" let &fillchars = "vert:\u2502,diff: "
+let &fillchars = "vert: ,diff: "
+let &listchars = "tab:\u25b8 ,extends:\u276f,precedes:\u276e,nbsp:\u2334"
+if has("linebreak")
+  let &showbreak = "\u21aa"
+endif
 endif
 
 " Global ignore pattern
@@ -146,14 +143,13 @@ filetype plugin indent on
 " }}}
 " KEYMAPS ------------------------------------------------------------------ {{{
 noremap <F1> :NERDTreeToggle %:p:h<CR>
-noremap <F2> :noh<cr>
-noremap <F3> <Esc>:Ag
-noremap <F4> :set list!<cr>
+noremap <F2> :set list!<cr>
+noremap <F3> <ESC>:FuzzyGrep<space>
+noremap <F4> <ESC>:FuzzyGrep <C-R><C-W> *<CR>
 noremap <F5> :terminal<cr>
 
-" CTRL-P
-map <silent> <C-a> :CtrlPBuffer<CR>
-map <silent> <C-s> :CtrlPMRUFiles<CR>
+" NEOVIM FUZZY
+map <silent> <C-p> :FuzzyOpen<CR>
 
 " use jj to return to normal mode
 imap jj <Esc>
@@ -357,23 +353,6 @@ command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q
 " PLUGIN SETTINGS ---------------------------------------------------------- {{{
 " NERDTree ----------------------------------------------------------------- {{{
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-" }}}
-" THE SILVER SEARCHER (ag) ------------------------------------------------- {{{
-let g:ag_working_path_mode="r"
-" }}}
-" CTRL-P ------------------------------------------------------------------- {{{
-" Make Ctrl+P indexing faster by using ag silver searcher
-let g:ctrlp_lazy_update = 0
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
-let g:ctrlp_max_files = 0
-if executable("ag")
-   set grepprg=ag\ --nogroup\ --nocolor
-   let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
-endif
-
-" Make Ctrl+P matching faster by using pymatcher
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 " }}}
 " AIRLINE ------------------------------------------------------------------ {{{
 " let g:tender_airline = 1

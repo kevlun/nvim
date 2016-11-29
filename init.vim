@@ -27,7 +27,8 @@ Plug 'w0rp/ale'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'cloudhead/neovim-fuzzy'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
@@ -36,7 +37,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
 Plug 'airblade/vim-gitgutter'
-Plug 'kassio/neoterm'
 
 " Plug: Syntax
 " HTML
@@ -144,12 +144,13 @@ filetype plugin indent on
 " KEYMAPS ------------------------------------------------------------------ {{{
 noremap <F1> :NERDTreeToggle<CR>
 noremap <F2> :set list!<cr>
-noremap <F3> <ESC>:FuzzyGrep<space>
-noremap <F4> <ESC>:FuzzyGrep <C-R><C-W> *<CR>
+noremap <F3> <ESC>:Ag <space>
+noremap <F4> <ESC>:Ag <C-R><C-W> *<CR>
 noremap <F5> :terminal<cr>
 
-" NEOVIM FUZZY
-map <silent> <C-p> :FuzzyOpen<CR>
+" FZF
+map <silent> <C-a> :Buffers<CR>
+map <silent> <C-p> :Files<CR>
 
 " use jj to return to normal mode
 imap jj <Esc>
@@ -397,6 +398,43 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 hi ALEError guifg=#dc322f guibg=none
 hi ALEWarning guifg=#df5f00 guibg=none
 
+" }}}
+" FZF ---------------------------------------------------------------------- {{{
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 " }}}
 " }}}
 " MISC SETTINGS ------------------------------------------------------------ {{{

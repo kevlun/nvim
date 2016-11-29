@@ -144,13 +144,14 @@ filetype plugin indent on
 " KEYMAPS ------------------------------------------------------------------ {{{
 noremap <F1> :NERDTreeToggle<CR>
 noremap <F2> :set list!<cr>
-noremap <F3> <ESC>:Ag <space>
+noremap <F3> <ESC>:Ag<CR>
 noremap <F4> <ESC>:Ag <C-R><C-W> *<CR>
 noremap <F5> :terminal<cr>
 
 " FZF
 map <silent> <C-a> :Buffers<CR>
 map <silent> <C-p> :Files<CR>
+map <silent> <C-s> :Ag<CR>
 
 " use jj to return to normal mode
 imap jj <Esc>

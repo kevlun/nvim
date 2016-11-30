@@ -37,6 +37,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
 Plug 'airblade/vim-gitgutter'
+Plug 'christoomey/vim-conflicted'
 
 " Plug: Syntax
 " HTML
@@ -436,6 +437,12 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
+" }}}
+" CONFLICTED --------------------------------------------------------------- {{{
+let g:diffget_local_map = 'gl'
+let g:diffget_upstream_map = 'gu'
+
+set stl+=%{ConflictedVersion()}
 " }}}
 " }}}
 " MISC SETTINGS ------------------------------------------------------------ {{{

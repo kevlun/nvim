@@ -54,6 +54,9 @@ Plug 'hdima/python-syntax', { 'for': 'python' }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 
+" Go
+Plug 'fatih/vim-go'
+
 " Plug: Themes
 Plug 'jdkanani/vim-material-theme'
 Plug 'jscappini/material.vim'
@@ -67,6 +70,10 @@ Plug 'jacoborus/tender'
 Plug 'dracula/vim'
 Plug 'MaxSt/FlatColor'
 Plug 'iCyMind/NeoSolarized'
+Plug 'aunsira/macvim-light'
+Plug 'lu-ren/SerialExperimentsLain'
+Plug 'ayu-theme/ayu-vim'
+Plug 'colepeters/spacemacs-theme.vim'
 
 call plug#end()
 " }}}

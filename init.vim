@@ -82,8 +82,11 @@ call plug#end()
 
 syntax on
 
-set background=dark
-color tender
+" let ayucolor="light"  " for light version of theme
+let ayucolor="mirage" " for mirage version of theme
+" let ayucolor="dark"   " for dark version of theme
+
+colorscheme ayu
 
 set relativenumber
 set number
@@ -371,7 +374,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'tender'
+let g:airline_theme = 'lucius'
 " let g:airline_left_sep=''
 " let g:airline_left_alt_sep=''
 " let g:airline_right_sep=''

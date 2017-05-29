@@ -56,6 +56,7 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 
 " Go
 Plug 'fatih/vim-go'
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Plug: Themes
 Plug 'jdkanani/vim-material-theme'
@@ -116,6 +117,9 @@ set cursorline
 set linespace=6
 set noequalalways
 set wildmenu
+
+" Enable mouse
+set mouse=a
 
 " Autoload file on external changes
 set autoread

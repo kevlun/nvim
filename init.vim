@@ -24,8 +24,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'w0rp/ale'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --gocode-completer --tern-completer'}
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-jedi'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -56,7 +57,7 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 
 " Go
 Plug 'fatih/vim-go'
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+" Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Plug: Themes
 Plug 'jdkanani/vim-material-theme'
@@ -75,6 +76,7 @@ Plug 'aunsira/macvim-light'
 Plug 'lu-ren/SerialExperimentsLain'
 Plug 'ayu-theme/ayu-vim'
 Plug 'colepeters/spacemacs-theme.vim'
+Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 " }}}
@@ -84,10 +86,10 @@ call plug#end()
 syntax on
 
 " let ayucolor="light"  " for light version of theme
-let ayucolor="mirage" " for mirage version of theme
+" let ayucolor="mirage" " for mirage version of theme
 " let ayucolor="dark"   " for dark version of theme
 
-colorscheme ayu
+colorscheme nord
 
 set relativenumber
 set number
@@ -378,11 +380,11 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'lucius'
-" let g:airline_left_sep=''
-" let g:airline_left_alt_sep=''
-" let g:airline_right_sep=''
-" let g:airline_right_alt_sep=''
+let g:airline_theme = 'nord'
+let g:airline_left_sep=''
+let g:airline_left_alt_sep=''
+let g:airline_right_sep=''
+let g:airline_right_alt_sep=''
 " }}}
 " JEDI --------------------------------------------------------------------- {{{
 " Do not show docstring on completion

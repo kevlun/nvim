@@ -24,7 +24,8 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'w0rp/ale'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --gocode-completer --tern-completer'}
+Plug 'roxma/nvim-completion-manager'
+" Plug 'Valloric/YouCompleteMe', {'do': './install.py --gocode-completer --tern-completer'}
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'zchee/deoplete-jedi'
 Plug 'editorconfig/editorconfig-vim'
@@ -36,27 +37,33 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-dispatch'
+" Plug 'tpope/vim-dispatch'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-conflicted'
+
+" Language Server
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+
+
 
 " Plug: Syntax
 " HTML
 Plug 'evidens/vim-twig'
 
 " Javascript
-Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+" Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 
 " Coffee-script
-Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+" Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 
 " Python
-Plug 'hdima/python-syntax', { 'for': 'python' }
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
+" Plug 'hdima/python-syntax', { 'for': 'python' }
+" Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+" Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 
 " Go
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 " Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Plug: Themes
@@ -77,6 +84,7 @@ Plug 'lu-ren/SerialExperimentsLain'
 Plug 'ayu-theme/ayu-vim'
 Plug 'colepeters/spacemacs-theme.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'rakr/vim-one'
 
 call plug#end()
 " }}}
@@ -218,14 +226,18 @@ cmap w!! w !sudo tee >/dev/null %
 nnoremap <silent> <space> @=(foldlevel('.')?'za':"\<space>")<CR>
 vnoremap <space> zf
 
-" Deoplete tab-complete
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : deoplete#mappings#manual_complete()
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" : "<S-Tab>"
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F6> :call LanguageClient#textDocument_rename()<CR>
 
-" Deoplete close popup and save indent with Enter
-inoremap <silent><expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
+" Deoplete tab-complete
+" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
+" inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : deoplete#manual_complete()
+" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" : "<S-Tab>"
+
+" " Deoplete close popup and save indent with Enter
+" inoremap <silent><expr><CR> pumvisible() ? deoplete#smart_close_popup() : "\<CR>"
 " }}}
 " LEADER ------------------------------------------------------------------- {{{
 " map leader to ,
@@ -388,16 +400,31 @@ let g:airline_right_alt_sep=''
 " }}}
 " JEDI --------------------------------------------------------------------- {{{
 " Do not show docstring on completion
-autocmd FileType python setlocal completeopt-=preview
+" autocmd FileType python setlocal completeopt-=preview
 " }}}
 " DEOPLETE ----------------------------------------------------------------- {{{
-let g:deoplete#enable_at_startup = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
+" let g:deoplete#enable_at_startup = 1
+" if !exists('g:deoplete#omni#input_patterns')
+"   let g:deoplete#omni#input_patterns = {}
+" endif
 
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
+" }}}
+" NEOVIM COMPLETION MANAGER ------------------------------------------------ {{{
+  inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
+  " imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
+  " imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
+  inoremap <expr> <CR> (pumvisible() ? "<c-y>" : "<CR>")
+" }}}
+" LANGSERVER --------------------------------------------------------------- {{{
+  let g:LanguageClient_serverCommands = {
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ }
+  let g:LanguageClient_autoStart = 1
+  set omnifunc=LanguageClient#complete
 " }}}
 " ALE ---------------------------------------------------------------------- {{{
 let g:ale_linters = {

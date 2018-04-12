@@ -73,18 +73,15 @@ Plug 'morhetz/gruvbox'
 Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
 Plug 'jordwalke/flatlandia'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'geoffharcourt/one-dark.vim'
-Plug 'mhartington/oceanic-next'
 Plug 'jacoborus/tender'
-Plug 'dracula/vim'
 Plug 'MaxSt/FlatColor'
 Plug 'iCyMind/NeoSolarized'
 Plug 'aunsira/macvim-light'
-Plug 'lu-ren/SerialExperimentsLain'
 Plug 'ayu-theme/ayu-vim'
 Plug 'colepeters/spacemacs-theme.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'rakr/vim-one'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
 
 call plug#end()
 " }}}

@@ -93,11 +93,10 @@ call plug#end()
 
 syntax on
 
-" let ayucolor="light"  " for light version of theme
-" let ayucolor="mirage" " for mirage version of theme
-" let ayucolor="dark"   " for dark version of theme
-
-colorscheme nord
+" ColorScheme
+set background=light
+let g:one_allow_italics = 1
+colorscheme one
 
 set relativenumber
 set number
@@ -392,7 +391,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'nord'
+let g:airline_theme = 'one'
 let g:airline_left_sep=''
 let g:airline_left_alt_sep=''
 let g:airline_right_sep=''

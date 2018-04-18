@@ -25,9 +25,6 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'w0rp/ale'
 Plug 'roxma/nvim-completion-manager'
-" Plug 'Valloric/YouCompleteMe', {'do': './install.py --gocode-completer --tern-completer'}
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'zchee/deoplete-jedi'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -37,34 +34,23 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-" Plug 'tpope/vim-dispatch'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-conflicted'
 
 " Language Server
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+Plug 'palantir/python-language-server', { 'branch': 'develop' }
+Plug 'sourcegraph/go-langserver', {'do': 'go get github.com/sourcegraph/go-langserver'}
+
+" REST CLIENT
+Plug 'diepm/vim-rest-console'
 
 
 
 " Plug: Syntax
 " HTML
 Plug 'evidens/vim-twig'
-
-" Javascript
-" Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
-
-" Coffee-script
-" Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
-
-" Python
-" Plug 'hdima/python-syntax', { 'for': 'python' }
-" Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-" Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
-
-" Go
-" Plug 'fatih/vim-go'
-" Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Plug: Themes
 Plug 'jdkanani/vim-material-theme'
@@ -82,6 +68,7 @@ Plug 'colepeters/spacemacs-theme.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'rakr/vim-one'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'soft-aesthetic/soft-era-vim'
 
 call plug#end()
 " }}}
@@ -91,7 +78,7 @@ call plug#end()
 syntax on
 
 " ColorScheme
-set background=dark
+set background=light
 let g:one_allow_italics = 1
 colorscheme one
 
@@ -390,9 +377,9 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'one'
 let g:airline_left_sep=''
-let g:airline_left_alt_sep=''
+let g:airline_left_alt_sep='|'
 let g:airline_right_sep=''
-let g:airline_right_alt_sep=''
+let g:airline_right_alt_sep='|'
 " }}}
 " JEDI --------------------------------------------------------------------- {{{
 " Do not show docstring on completion
@@ -418,13 +405,31 @@ let g:airline_right_alt_sep=''
   let g:LanguageClient_serverCommands = {
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ 'python': ['bash', '-c', '.env/bin/pyls || /usr/local/bin/pyls'],
+    \ 'go': ['go-langserver']
     \ }
+
+  let g:LanguageClient_settingsPath = expand('~/.config/nvim/settings.json')
   let g:LanguageClient_autoStart = 1
+  let g:LanguegeClient_loadSettings = 1
   set omnifunc=LanguageClient#complete
+" }}}
+" REST CONSOLE ------------------------------------------------------------- {{{
+let g:vrc_curl_opts = {
+  \ '--connect-timeout' : 10,
+  \ '-b': '/tmp/cookie',
+  \ '-c': '/tmp/cookie',
+  \ '-L': '',
+  \ '-i': '',
+  \ '--max-time': 60,
+  \ '--ipv4': '',
+  \ '-k': '',
+  \}
 " }}}
 " ALE ---------------------------------------------------------------------- {{{
 let g:ale_linters = {
 \   'javascript': ['eslint'],
+\   'python': ['flake8'],
 \}
 
 let g:ale_sign_error = '⨉ '
@@ -434,6 +439,8 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+" let g:ale_python_flake8_args="--ignore=E501"
 
 hi ALEError guifg=#dc322f guibg=none
 hi ALEWarning guifg=#df5f00 guibg=none

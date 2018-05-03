@@ -2,14 +2,15 @@
 if (empty($TMUX))
   if (has("nvim"))
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+    " Change cursor in insert mode
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
   endif
   if (has("termguicolors"))
     set termguicolors
   endif
 endif
 
-" Change cursor in insert mode
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
     silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
@@ -24,7 +25,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'w0rp/ale'
-Plug 'roxma/nvim-completion-manager'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -37,38 +38,37 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-conflicted'
 
+" Language: PHP
+Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+Plug 'kristijanhusak/deoplete-phpactor'
+
 " Language Server
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 Plug 'palantir/python-language-server', { 'branch': 'develop' }
 Plug 'sourcegraph/go-langserver', {'do': 'go get github.com/sourcegraph/go-langserver'}
 
 " REST CLIENT
 Plug 'diepm/vim-rest-console'
 
-
-
 " Plug: Syntax
-" HTML
 Plug 'evidens/vim-twig'
+Plug 'kchmck/vim-coffee-script'
 
 " Plug: Themes
-Plug 'jdkanani/vim-material-theme'
-Plug 'jscappini/material.vim'
 Plug 'morhetz/gruvbox'
 Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
-Plug 'jordwalke/flatlandia'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'jacoborus/tender'
-Plug 'MaxSt/FlatColor'
 Plug 'iCyMind/NeoSolarized'
-Plug 'aunsira/macvim-light'
 Plug 'ayu-theme/ayu-vim'
 Plug 'colepeters/spacemacs-theme.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'rakr/vim-one'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'soft-aesthetic/soft-era-vim'
+Plug 'nightsense/vimspectr'
+Plug 'tomasiser/vim-code-dark'
 
 call plug#end()
 " }}}
@@ -78,9 +78,9 @@ call plug#end()
 syntax on
 
 " ColorScheme
-set background=light
+set background=dark
 let g:one_allow_italics = 1
-colorscheme one
+colorscheme codedark
 
 set relativenumber
 set number
@@ -214,13 +214,14 @@ nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F6> :call LanguageClient#textDocument_rename()<CR>
 
 " Deoplete tab-complete
-" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
-" inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : deoplete#manual_complete()
-" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" : "<S-Tab>"
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : deoplete#manual_complete()
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" : "<S-Tab>"
 
-" " Deoplete close popup and save indent with Enter
-" inoremap <silent><expr><CR> pumvisible() ? deoplete#smart_close_popup() : "\<CR>"
+" Deoplete close popup and save indent with Enter
+inoremap <silent><expr><CR> pumvisible() ? deoplete#smart_close_popup() : "\<CR>"
+
 " }}}
 " LEADER ------------------------------------------------------------------- {{{
 " map leader to ,
@@ -277,6 +278,24 @@ if isdirectory(expand("~/.config/nvim/plugged/tabular"))
     nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 endif
+
+" Include use statement
+nmap <Leader>u :call phpactor#UseAdd()<CR>
+
+" Invoke the context menu
+nmap <Leader>mm :call phpactor#ContextMenu()<CR>
+
+" Goto definition of class or class member under the cursor
+nmap <Leader>o :call phpactor#GotoDefinition()<CR>
+
+" Transform the classes in the current file
+nmap <Leader>tt :call phpactor#Transform()<CR>
+
+" Generate a new class (replacing the current file)
+nmap <Leader>cc :call phpactor#ClassNew()<CR>
+
+" Extract method from selection
+vmap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
 " }}}
 " FUNCTIONS ---------------------------------------------------------------- {{{
 " Strip whitespace --------------------------------------------------------- {{{
@@ -307,15 +326,17 @@ endfunction
 " }}}
 " Clipboard - -------------------------------------------------------------- {{{
 " Copy from and to Mac Clipboard
-let os = substitute(system('uname'), "\n", "", "")
 function! ClipboardYank()
+  let os = substitute(system('uname'), "\n", "", "")
   if os == "Linux"
     call system('xclip -i -selection clipboard', @@)
   elseif os == "Darwin"
-    system('pbcopy', @@)
+    call system('pbcopy', @@)
   endif
 endfunction
+
 function! ClipboardPaste()
+  let os = substitute(system('uname'), "\n", "", "")
   if os == "Linux"
     let @@ = system('xclip -o -selection clipboard')
   elseif os == "Darwin"
@@ -371,35 +392,40 @@ command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 " }}}
 " AIRLINE ------------------------------------------------------------------ {{{
-" let g:tender_airline = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'one'
-let g:airline_left_sep=''
-let g:airline_left_alt_sep='|'
-let g:airline_right_sep=''
-let g:airline_right_alt_sep='|'
+let g:airline_theme = 'codedark'
+" let g:airline_left_sep=''
+" let g:airline_left_alt_sep='|'
+" let g:airline_right_sep=''
+" let g:airline_right_alt_sep='|'
 " }}}
 " JEDI --------------------------------------------------------------------- {{{
 " Do not show docstring on completion
 " autocmd FileType python setlocal completeopt-=preview
 " }}}
 " DEOPLETE ----------------------------------------------------------------- {{{
-" let g:deoplete#enable_at_startup = 1
-" if !exists('g:deoplete#omni#input_patterns')
-"   let g:deoplete#omni#input_patterns = {}
-" endif
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
 
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+let g:deoplete#sources = {}
+let g:deoplete#sources.python = ['LanguageClient']
+let g:deoplete#sources.python3 = ['LanguageClient']
+let g:deoplete#sources.vim = ['vim']
 
 " }}}
 " NEOVIM COMPLETION MANAGER ------------------------------------------------ {{{
-  inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
+  " inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
+  " inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
   " imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
   " imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
-  inoremap <expr> <CR> (pumvisible() ? "<c-y>" : "<CR>")
+  " inoremap <expr> <CR> (pumvisible() ? "<c-y>" : "<CR>")
 " }}}
 " LANGSERVER --------------------------------------------------------------- {{{
   let g:LanguageClient_serverCommands = {
@@ -410,8 +436,8 @@ let g:airline_right_alt_sep='|'
     \ }
 
   let g:LanguageClient_settingsPath = expand('~/.config/nvim/settings.json')
-  let g:LanguageClient_autoStart = 1
   let g:LanguegeClient_loadSettings = 1
+  let g:LanguageClient_autoStart = 1
   set omnifunc=LanguageClient#complete
 " }}}
 " REST CONSOLE ------------------------------------------------------------- {{{

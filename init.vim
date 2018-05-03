@@ -26,6 +26,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'w0rp/ale'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -62,13 +63,20 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'jacoborus/tender'
 Plug 'iCyMind/NeoSolarized'
 Plug 'ayu-theme/ayu-vim'
-Plug 'colepeters/spacemacs-theme.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'rakr/vim-one'
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'soft-aesthetic/soft-era-vim'
 Plug 'nightsense/vimspectr'
 Plug 'tomasiser/vim-code-dark'
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'ayu-theme/ayu-vim'
+Plug 'romainl/Apprentice'
+Plug 'AlessandroYorba/Alduin'
+Plug 'rakr/vim-two-firewatch'
+Plug 'logico-dev/typewriter'
+Plug 'AlessandroYorba/Despacio'
+Plug 'agreco/vim-citylights'
+Plug 'atelierbram/Base2Tone-vim'
 
 call plug#end()
 " }}}
@@ -79,8 +87,8 @@ syntax on
 
 " ColorScheme
 set background=dark
-let g:one_allow_italics = 1
-colorscheme codedark
+" let g:one_allow_italics = 1
+colorscheme deep-space
 
 set relativenumber
 set number
@@ -395,7 +403,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'codedark'
+let g:airline_theme = 'deep_space'
 " let g:airline_left_sep=''
 " let g:airline_left_alt_sep='|'
 " let g:airline_right_sep=''

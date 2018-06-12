@@ -25,8 +25,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'w0rp/ale'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-completion-manager'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -40,12 +41,12 @@ Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-conflicted'
 
 " Language: PHP
-Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
-Plug 'kristijanhusak/deoplete-phpactor'
+" Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+" Plug 'kristijanhusak/deoplete-phpactor'
 
 " Language Server
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 Plug 'palantir/python-language-server', { 'branch': 'develop' }
 Plug 'sourcegraph/go-langserver', {'do': 'go get github.com/sourcegraph/go-langserver'}
 
@@ -88,7 +89,7 @@ syntax on
 " ColorScheme
 set background=dark
 " let g:one_allow_italics = 1
-colorscheme deep-space
+colorscheme codedark
 
 set relativenumber
 set number
@@ -403,7 +404,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'deep_space'
+let g:airline_theme = 'codedark'
 " let g:airline_left_sep=''
 " let g:airline_left_alt_sep='|'
 " let g:airline_right_sep=''
@@ -414,26 +415,27 @@ let g:airline_theme = 'deep_space'
 " autocmd FileType python setlocal completeopt-=preview
 " }}}
 " DEOPLETE ----------------------------------------------------------------- {{{
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_smart_case = 0
+" if !exists('g:deoplete#omni#input_patterns')
+"   let g:deoplete#omni#input_patterns = {}
+" endif
 
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-let g:deoplete#sources = {}
-let g:deoplete#sources.python = ['LanguageClient']
-let g:deoplete#sources.python3 = ['LanguageClient']
-let g:deoplete#sources.vim = ['vim']
+" let g:deoplete#sources = {}
+" let g:deoplete#sources.python = ['LanguageClient']
+" let g:deoplete#sources.python3 = ['LanguageClient']
+" let g:deoplete#sources.php = ['LanguageClient']
+" let g:deoplete#sources.vim = ['vim']
 
 " }}}
 " NEOVIM COMPLETION MANAGER ------------------------------------------------ {{{
-  " inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
-  " inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
-  " imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
-  " imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
-  " inoremap <expr> <CR> (pumvisible() ? "<c-y>" : "<CR>")
+  inoremap <expr> <Tab> pumvisible() ? "<C-n>" : "<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"
+  imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
+  imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
+  inoremap <expr> <CR> (pumvisible() ? "<c-y>" : "<CR>")
 " }}}
 " LANGSERVER --------------------------------------------------------------- {{{
   let g:LanguageClient_serverCommands = {
